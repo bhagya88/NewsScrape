@@ -11,10 +11,12 @@ var Article = require('../models/Article');
 var Note = require('../models/Note');
 mongoose.Promise = Promise;
 
+var skip = 0;
 
-// Simple index route
 router.get("/", function(req, res) {
-  res.send(index.html);
+  console.log("root request");
+  skip = 0;
+  res.redirect("/articles");
 });
 
 // A GET request to scrape the echojs website
@@ -56,10 +58,10 @@ router.get("/scrape", function(req, res) {
 });
 
 // This will get the articles we scraped from the mongoDB
-router.get("/articles/:skip", function(req, res) {
+router.get("/articles", function(req, res) {
   // Grab every doc in the Articles array
-  console.log(req.params.skip);
-  Article.find({}).skip(parseInt(req.params.skip)).limit(1)
+ // console.log(req.params.skip);
+  Article.find({}).skip(skip).limit(1)
    .populate("note")
    .exec(function(error, doc) {
     // Log any errors
@@ -68,7 +70,12 @@ router.get("/articles/:skip", function(req, res) {
     }
     // Or send the doc to the browser as a json object
     else {
-      res.json(doc);
+      skip++;
+      console.log(doc[0]);
+      res.render('index',
+      {
+        article:doc[0]
+      })
     }
   });
 });
@@ -95,6 +102,7 @@ router.get("/articles/:id", function(req, res) {
 
 // Create a new note or replace an existing note
 router.post("/articles/:id", function(req, res) {
+  console.log(req.body);
   // Create a new note and pass the req.body to the entry
   var newNote = new Note(req.body);
 

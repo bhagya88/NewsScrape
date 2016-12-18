@@ -1,0 +1,55 @@
+<div class="container white-text">
+	<div class="row">
+		<div class="row"><h4 class="center white-text">NewsScrape</h4> </div>
+		<div class="col s3">
+			<div class="card transparent center">
+			    <form method="POST" action="/articles/{{article._id}}">
+			    <div class="card-content note-card ">
+			      <span class="card-title activator white-text text-darken-4">New Note</span>
+			      <div class="valign-wrapper" >
+								<input type="text" id="note" name="content" class="input-field valign">
+				  </div> 
+
+			    </div>
+			    <div class="card-image waves-effect waves-block waves-light center">
+			     <button id="save" type="submit"><i class="material-icons small">save</i></button>
+			    </div>
+			    <form>
+			</div>
+        </div>
+
+
+		<div class="col s6">
+			<div class="card transparent center">
+			    <form method="POST" action="/articles/{{article._id}}">
+			    <div class="card-content article-card">
+			      <p><span class="card-title activator white-text text-darken-4 center">Article</span></p>
+			      <p class="left">{{article.title}}</p>
+
+			    </div>
+			    <div class="card-image waves-effect waves-block waves-light center">
+			     <button id="delete"><i id="next" class="material-icons small">label</i></button>
+			    </div>
+			</div>
+			<form>
+		</div>
+
+		<div class="col s3">
+			<div class="card transparent ">
+			    
+			    <div class="card-content note-card center">
+			      <span class="card-title activator white-text text-darken-4 center">Saved Notes</span>
+			      <p class="left">{{article.note.content}}</p>
+
+			    </div>
+			    <div class="card-image waves-effect waves-block waves-light center">
+			     <i class="material-icons small">delete</i>
+			    </div>
+			</div>
+		</div>
+			
+		</div>
+		
+	</div>
+	
+</div>

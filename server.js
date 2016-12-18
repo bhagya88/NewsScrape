@@ -35,7 +35,24 @@ app.use(bodyParser.urlencoded({
 	extended: false 
 }));
 
-app.use(express.static('public'));
+app.use(express.static('public'));// override with POST having ?_method
+app.use(methodOverride('_method'));
+
+var exphbs = require('express-handlebars');
+
+// register handlebars
+app.engine('handlebars',exphbs({
+	defaultLayout: 'main'
+}));
+
+// middleware to log request to console
+app.use(logger('combined'));
+
+// set the view engine
+app.set('view engine', 'handlebars');
+
+
+
 app.use('/',articleRouter);
 
 app.listen(PORT);
