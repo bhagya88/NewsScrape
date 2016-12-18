@@ -1,0 +1,25 @@
+body{
+  /*background:url(http://i45.tinypic.com/2i2255j.png);*/
+  background-image: url('../images/city.jpg');
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+.card{
+	border:1px solid #0d47a1;
+}
+.article-card{
+	
+    
+    height:400px;
+   
+  
+}
+
+.note-card{
+	
+	height:200px;
+	
+}
+.card-image{
+	border-top:1px solid #0d47a1;
+  }
