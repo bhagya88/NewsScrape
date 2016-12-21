@@ -32,6 +32,26 @@ $('#next').click(function(){
 	$('#title').text(articles[idx].title);
 	if(articles[idx].note){
   		$('#note').text(articles[idx].note.content);
+  	}else{
+  		$('#note').text("");
   	}	
   	idx++;
+});
+
+$('#save').click(function(){
+	var postNote = $.ajax({
+		url:'/articles/'+ articles[idx-1]._id,
+		method:'POST',
+		data:{
+			content: $('#content').val().trim()
+		}
+	});
+
+	postNote.done(function(data){
+		console.log("from save");
+		console.log(data);
+		$('#note').text(data.content);
+	});
+
+	$('#content').val('');
 });

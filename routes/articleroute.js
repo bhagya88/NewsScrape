@@ -102,74 +102,63 @@ router.get("/articles/:id", function(req, res) {
 });
 
 
-// // Create a new note or replace an existing note
-// router.post("/articles/:id", function(req, res) {
-//   console.log(req.body);
-//   // Create a new note and pass the req.body to the entry
-//   var newNote = new Note(req.body);
+// Create a new note or replace an existing note
+router.post("/articles/:id", function(req, res) {
+  console.log(req.body);
+  // Create a new note and pass the req.body to the entry
+  var newNote = new Note(req.body);
 
-//   // And save the new note the db
-//   newNote.save(function(error, doc) {
-//     // Log any errors
-//     if (error) {
-//       console.log(error);
-//     }
-//     // Otherwise
-//     else {
-//       console.log("doc");
-//       console.log(doc);
-//       // Use the article id to find and update it's note
-//       Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
-//       // Execute the above query
-//       .exec(function(err, doc1) {
-//         // Log any errors
-//         if (err) {
-//           console.log(err);
-//         }
-//         else {
-//           console.log("doc1");
-//           console.log(doc1);
-//           // Or send the document to the browser
-//           res.render('index',{
-//             article:{_id: ,
-//               title: ,
-//               link : ,
-//               note : {
-//                 _id:
-//                 content
-//               }}
-//           });
-//         }
-//       });
-//     }
-//   });
-// });
-
-
-// deleting notes 
-router.post('/article/del/:id', function(req, res) {
-  console.log('reqid',req.params.id);
-  Article.findOne({
-      articleId: req.params.id
-    })
-    .populate("note")
-    .exec(function(err, doc) {
-      var notes = doc.note;
-      console.log(notes)
-      for (var i = 0; i < notes.length; i++) {
-        var note = notes[i];
-        
-        if (note.id === req.body.noteId) {
-          doc.note.splice(i,1)
-         
-        } else {
-         
+  // And save the new note the db
+  newNote.save(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise
+    else {
+      console.log("doc");
+      console.log(doc);
+      // Use the article id to find and update it's note
+      Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+      // Execute the above query
+      .exec(function(err, doc1) {
+        // Log any errors
+        if (err) {
+          console.log(err);
         }
-      }
-      doc.save()
-      //res.json({success:true})
-      res.json(doc);
-    })
+        else {
+          res.json(doc);
+        }
+      });
+    }
+  });
+});
 
-})
+
+// // deleting notes 
+// router.post('/article/del/:id', function(req, res) {
+//   console.log('reqid',req.params.id);
+//   Article.findOne({
+//       articleId: req.params.id
+//     })
+//     .populate("note")
+//     .exec(function(err, doc) {
+//       var notes = doc.note;
+//       console.log(notes)
+//       for (var i = 0; i < notes.length; i++) {
+//         var note = notes[i];
+        
+//         if (note.id === req.body.noteId) {
+//           doc.note.splice(i,1)
+         
+//         } else {
+         
+//         }
+//       }
+//       doc.save()
+//       //res.json({success:true})
+//       res.json(doc);
+//     })
+
+// })
  module.exports = router;
