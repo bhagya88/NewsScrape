@@ -24,7 +24,7 @@ This is a full stack web app that lets users leave comments on the latest news. 
 
 ### How it works
 
-* When the user visits the site the news articles are webscraped, and checked if they already exist in the database. If they don't already exist then they are stored in the database.
+* When the user visits the site the news articles are webscraped, and checked if they already exist in the database. If they don't, then they added to the database.
 
 * The use can navigate to different articles and leave his notes.
 
