@@ -15,7 +15,7 @@ mongoose.Promise = Promise;
 // home page
 router.get("/", function(req, res) {
   console.log("root request");
-  res.redirect("/articles");
+  res.redirect("/scrape");
 });
 
 // A GET request to scrape the echojs website
@@ -34,26 +34,44 @@ router.get("/scrape", function(req, res) {
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
       result.note=[];
-      // Using our Article model, create a new entry
-      // This effectively passes the result object to the entry (and the title and link)
-      var entry = new Article(result);
+      
+      
+      // Check if the article already exists
 
-      // Now, save that entry to the db
-      entry.save(function(err, doc) {
-        // Log any errors
-        if (err) {
-          console.log(err);
-        }
-        // Or log the doc
-        else {
-          console.log(doc);
-        }
-      });
+      Article.find({where:{title: result.title}})
+       
+       .exec(function(error, docs) {
+          // Log any errors
+          if (error) {
+            console.log(error);
+          }
+          // Or send the doc to the browser as a json object
+          else {
 
+            if(!docs.length){
+
+              // Using our Article model, create a new entry
+              // This effectively passes the result object to the entry (and the title and link)
+        
+                var entry = new Article(result);
+
+               // Now, save that entry to the db
+                entry.save(function(err, doc) {
+                    // Log any errors
+                    if (err) {
+                      console.log(err);
+                    }else { // Or log the doc
+                    console.log(doc);
+                    }
+                });
+            }
+            res.redirect('/articles')
+          }
+        });
     });
+
   });
-  // Tell the browser that we finished scraping the text
-  res.send("Scrape Complete");
+  
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -73,7 +91,6 @@ router.get("/articles", function(req, res) {
     }
   });
 });
-
 
 
 // Create a new note or replace an existing note
@@ -103,13 +120,13 @@ router.post("/articles/:id", function(req, res) {
         // Log any errors
         if (err) {
           console.log(err);
-        }
-        else {
+        }else {
           res.json(doc);
         }
       });
     }
   });
+
 });
 
 
