@@ -3,6 +3,10 @@ body{
   background-image: url('../images/city.jpg');
   background-repeat: no-repeat;
   background-size:cover;
+ color: #40c4ff;
+ /*font-family: 'Sanchez', serif;*/
+font-family: 'David Libre', serif;
+/*font-family: 'Yrsa', serif;*/
 }
 .card{
 	border:1px solid #0d47a1;

@@ -18,6 +18,7 @@ getArticles.done(function(data){
 		if(i===0){
 
 			$('#title').text(ele.title);
+			$('#articleNum').text('1');
 
 			// if the article has any notes, show them on page
 			if(ele.note && ele.note.length){
@@ -39,6 +40,7 @@ $('#next').click(function(){
 	if(idx<articles.length){
 		// show article on page
 		$('#title').text(articles[idx].title);
+		$('#articleNum').text(idx+1);
 		
 		// if there are any notes for the article, show them on page
 		if(articles[idx].note.length){
