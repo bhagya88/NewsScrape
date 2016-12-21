@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+// schema for the notes collection
 var NoteSchema = new Schema({
 	content:{
 		type:String

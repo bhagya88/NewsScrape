@@ -1,71 +1,91 @@
 
-// $('#next').click(function(){
-// 	window.location = '/articles';
-// });
-
-// // $('#save').click(function(){
-// // 	var req = $.ajax("/articles"+id);
-
-// // 	req.done();
-// // });
-
 var articles=[];
 var idx =1;
-var req = $.ajax({
+
+
+// get all articles
+var getArticles = $.ajax({
 	url:'/articles',
 	method: 'GET'
 
 });
 
-req.done(function(data){
-	//console.log(data);
-	data.forEach(function(ele,i){
+// store data in articles array.Show the first article on the page
+getArticles.done(function(data){
+		data.forEach(function(ele,i){
+
+		// first article
 		if(i===0){
-		$('#title').text(ele.title);
-		if(ele.note && ele.note.length){
-			ele.note.forEach(function(ele){
-				$('#note').append('<p>'+ele.content+'</p>');
-			});
-			
-		 }		
+
+			$('#title').text(ele.title);
+
+			// if the article has any notes, show them on page
+			if(ele.note && ele.note.length){
+				ele.note.forEach(function(ele){
+					$('#note').append('<p>'+ele.content+'</p>');
+				});
+				
+			 }		
 		}
+
+		// push all the date into articles array for later use.
 		articles.push(ele);
 	});
 });
 
+// fetches next article when user clicks on on next
 $('#next').click(function(){
-	$('#title').text(articles[idx].title);
-	
-	if(articles[idx].note.length){
-		articles[idx].note.forEach(function(ele){
-				$('#note').append('<p>'+ele.content+'</p>');
-			});
-  		//$('#note').text(articles[idx].note.content);
-  	}else{
-  		$('#note').text("");
-  	}	
-  	idx++;
+	// check if we reached end of articles
+	if(idx<articles.length){
+		// show article on page
+		$('#title').text(articles[idx].title);
+		
+		// if there are any notes for the article, show them on page
+		if(articles[idx].note.length){
+			articles[idx].note.forEach(function(ele){
+					$('#note').append('<p>'+ele.content+'</p>');
+				});
+	  		
+	  	}else{
+	  		$('#note').text("");
+	  	}	
+	  	idx++;
+  }
 });
 
+
+// save the new notes
 $('#save').click(function(){
+	var noteContent = $('#content').val().trim();
+
+	// if the note is not empty
+	if(noteContent){
+
+	// post the note
 	var postNote = $.ajax({
 		url:'/articles/'+ articles[idx-1]._id,
 		method:'POST',
 		data:{
-			content: $('#content').val().trim()
+			content: noteContent
 		}
 	});
 
 	postNote.done(function(data){
-		console.log("from save");
-		console.log(data);
+		//show the note on the saved notes page
 		$('#note').append('<p>'+data.content+'</p>');
 	});
 
+	// remove the note from new note page
 	$('#content').val('');
+
+	}
+	
 });
 
+// delete all notes associated with an article
 $('#delete').click(function(){
+
+	// make a delete request
 	var deleteNote = $.ajax({
 		url:'/notes/'+ articles[idx-1]._id+'?_method=DELETE',
 		method:'POST',
@@ -73,10 +93,7 @@ $('#delete').click(function(){
 	});
 
 	deleteNote.done(function(data){
-		// console.log("from save");
-		// console.log(data);
 		$('#note').text("");
 	});
 
-	//$('#content').val('');
 });

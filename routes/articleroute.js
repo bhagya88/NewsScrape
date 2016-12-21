@@ -12,7 +12,7 @@ var Note = require('../models/Note');
 mongoose.Promise = Promise;
 
 
-
+// home page
 router.get("/", function(req, res) {
   console.log("root request");
   res.redirect("/articles");
@@ -74,24 +74,6 @@ router.get("/articles", function(req, res) {
   });
 });
 
-// Grab an article by it's ObjectId
-router.get("/articles/:id", function(req, res) {
-  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-  Article.findOne({ "_id": req.params.id })
-  // ..and populate all of the notes associated with it
-  .populate("note")
-  // now, execute our query
-  .exec(function(error, doc) {
-    // Log any errors
-    if (error) {
-      console.log(error);
-    }
-    // Otherwise, send the doc to the browser as a json object
-    else {
-      res.json(doc);
-    }
-  });
-});
 
 
 // Create a new note or replace an existing note
@@ -108,11 +90,8 @@ router.post("/articles/:id", function(req, res) {
     }
     // Otherwise
     else {
-      console.log("doc");
-      console.log(doc);
-      // Use the article id to find and update it's note
-      //Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
-      // Execute the above query
+     
+     // Associate the note with the article
       Article.findOneAndUpdate({
           "_id": req.params.id
         }, {
@@ -134,7 +113,7 @@ router.post("/articles/:id", function(req, res) {
 });
 
 
-// deleting notes 
+// deleting all notes associated with an article 
 router.delete('/notes/:articleId', function(req, res) {
   console.log('reqid',req.params.articleId);
      
