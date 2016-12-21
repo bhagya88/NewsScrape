@@ -22,9 +22,12 @@ req.done(function(data){
 	data.forEach(function(ele,i){
 		if(i===0){
 		$('#title').text(ele.title);
-		if(ele.note){
-			$('#note').text(ele.note.content);
-		}		
+		if(ele.note && ele.note.length){
+			ele.note.forEach(function(ele){
+				$('#note').append('<p>'+ele.content+'</p>');
+			});
+			
+		 }		
 		}
 		articles.push(ele);
 	});
@@ -32,8 +35,12 @@ req.done(function(data){
 
 $('#next').click(function(){
 	$('#title').text(articles[idx].title);
-	if(articles[idx].note){
-  		$('#note').text(articles[idx].note.content);
+	
+	if(articles[idx].note.length){
+		articles[idx].note.forEach(function(ele){
+				$('#note').append('<p>'+ele.content+'</p>');
+			});
+  		//$('#note').text(articles[idx].note.content);
   	}else{
   		$('#note').text("");
   	}	
@@ -52,7 +59,7 @@ $('#save').click(function(){
 	postNote.done(function(data){
 		console.log("from save");
 		console.log(data);
-		$('#note').text(data.content);
+		$('#note').append('<p>'+data.content+'</p>');
 	});
 
 	$('#content').val('');

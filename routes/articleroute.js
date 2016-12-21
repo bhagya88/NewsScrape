@@ -34,7 +34,7 @@ router.get("/scrape", function(req, res) {
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
-
+      result.note=[];
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
       var entry = new Article(result);
@@ -69,7 +69,7 @@ router.get("/articles", function(req, res) {
     }
     // Or send the doc to the browser as a json object
     else {
-    
+      console.log(doc);
       res.json(doc);
     }
   });
@@ -112,8 +112,15 @@ router.post("/articles/:id", function(req, res) {
       console.log("doc");
       console.log(doc);
       // Use the article id to find and update it's note
-      Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+      //Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
       // Execute the above query
+      Article.findOneAndUpdate({
+          "_id": req.params.id
+        }, {
+          $push: {
+            "note": doc._id
+          }
+        })
       .exec(function(err, doc1) {
         // Log any errors
         if (err) {
@@ -131,7 +138,7 @@ router.post("/articles/:id", function(req, res) {
 // deleting notes 
 router.delete('/notes/:articleId', function(req, res) {
   console.log('reqid',req.params.articleId);
- Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": undefined })
+ Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": [] })
     .populate("note")
     .exec(function(err, doc) {
      
