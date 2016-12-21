@@ -59,9 +59,7 @@ router.get("/scrape", function(req, res) {
 
 // This will get the articles we scraped from the mongoDB
 router.get("/articles", function(req, res) {
-  // Grab every doc in the Articles array
- // console.log(req.params.skip);
- // Article.find({}).skip(skip).limit(1)
+  
   Article.find({})
    .populate("note")
    .exec(function(error, doc) {
@@ -71,12 +69,7 @@ router.get("/articles", function(req, res) {
     }
     // Or send the doc to the browser as a json object
     else {
-      // skip++;
-      // console.log(doc[0]);
-      // res.render('index',
-      // {
-      //   article:doc[0]
-      // })
+    
       res.json(doc);
     }
   });
@@ -135,30 +128,17 @@ router.post("/articles/:id", function(req, res) {
 });
 
 
-// // deleting notes 
-// router.post('/article/del/:id', function(req, res) {
-//   console.log('reqid',req.params.id);
-//   Article.findOne({
-//       articleId: req.params.id
-//     })
-//     .populate("note")
-//     .exec(function(err, doc) {
-//       var notes = doc.note;
-//       console.log(notes)
-//       for (var i = 0; i < notes.length; i++) {
-//         var note = notes[i];
-        
-//         if (note.id === req.body.noteId) {
-//           doc.note.splice(i,1)
-         
-//         } else {
-         
-//         }
-//       }
-//       doc.save()
-//       //res.json({success:true})
-//       res.json(doc);
-//     })
+// deleting notes 
+router.delete('/notes/:articleId', function(req, res) {
+  console.log('reqid',req.params.articleId);
+ Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": undefined })
+    .populate("note")
+    .exec(function(err, doc) {
+     
+      res.end();
+      //res.json({success:true})
+      //res.json(doc);
+    });
 
-// })
+});
  module.exports = router;

@@ -22,7 +22,9 @@ req.done(function(data){
 	data.forEach(function(ele,i){
 		if(i===0){
 		$('#title').text(ele.title);
-		$('#note').text(ele.note.content);		
+		if(ele.note){
+			$('#note').text(ele.note.content);
+		}		
 		}
 		articles.push(ele);
 	});
@@ -54,4 +56,20 @@ $('#save').click(function(){
 	});
 
 	$('#content').val('');
+});
+
+$('#delete').click(function(){
+	var deleteNote = $.ajax({
+		url:'/notes/'+ articles[idx-1]._id+'?_method=DELETE',
+		method:'POST',
+		data:{}
+	});
+
+	deleteNote.done(function(data){
+		// console.log("from save");
+		// console.log(data);
+		$('#note').text("");
+	});
+
+	//$('#content').val('');
 });
