@@ -11,11 +11,10 @@ var Article = require('../models/Article');
 var Note = require('../models/Note');
 mongoose.Promise = Promise;
 
-var skip = 0;
+
 
 router.get("/", function(req, res) {
   console.log("root request");
-  skip = 0;
   res.redirect("/articles");
 });
 
@@ -138,13 +137,13 @@ router.post("/articles/:id", function(req, res) {
 // deleting notes 
 router.delete('/notes/:articleId', function(req, res) {
   console.log('reqid',req.params.articleId);
- Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": [] })
+     
+     Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": [] })
     .populate("note")
     .exec(function(err, doc) {
-     
+      console.log(doc);
       res.end();
-      //res.json({success:true})
-      //res.json(doc);
+      
     });
 
 });

@@ -13,11 +13,11 @@ var articleRouter = require('./routes/articleroute.js');
 
 
 var PORT = process.env.PORT || '3000';
-
+var mongoURI = process.env.MONGODB_URI || "mongodb://localhost/newscrape";
 
 mongoose.Promise = Promise;
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/newscrape");
+mongoose.connect(mongoURI);
 var db = mongoose.connection;
 
 db.on('error',function(error){
