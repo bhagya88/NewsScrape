@@ -61,7 +61,8 @@ router.get("/scrape", function(req, res) {
 router.get("/articles", function(req, res) {
   // Grab every doc in the Articles array
  // console.log(req.params.skip);
-  Article.find({}).skip(skip).limit(1)
+ // Article.find({}).skip(skip).limit(1)
+  Article.find({})
    .populate("note")
    .exec(function(error, doc) {
     // Log any errors
@@ -70,12 +71,13 @@ router.get("/articles", function(req, res) {
     }
     // Or send the doc to the browser as a json object
     else {
-      skip++;
-      console.log(doc[0]);
-      res.render('index',
-      {
-        article:doc[0]
-      })
+      // skip++;
+      // console.log(doc[0]);
+      // res.render('index',
+      // {
+      //   article:doc[0]
+      // })
+      res.json(doc);
     }
   });
 });
@@ -100,36 +102,48 @@ router.get("/articles/:id", function(req, res) {
 });
 
 
-// Create a new note or replace an existing note
-router.post("/articles/:id", function(req, res) {
-  console.log(req.body);
-  // Create a new note and pass the req.body to the entry
-  var newNote = new Note(req.body);
+// // Create a new note or replace an existing note
+// router.post("/articles/:id", function(req, res) {
+//   console.log(req.body);
+//   // Create a new note and pass the req.body to the entry
+//   var newNote = new Note(req.body);
 
-  // And save the new note the db
-  newNote.save(function(error, doc) {
-    // Log any errors
-    if (error) {
-      console.log(error);
-    }
-    // Otherwise
-    else {
-      // Use the article id to find and update it's note
-      Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
-      // Execute the above query
-      .exec(function(err, doc) {
-        // Log any errors
-        if (err) {
-          console.log(err);
-        }
-        else {
-          // Or send the document to the browser
-          res.send(doc);
-        }
-      });
-    }
-  });
-});
+//   // And save the new note the db
+//   newNote.save(function(error, doc) {
+//     // Log any errors
+//     if (error) {
+//       console.log(error);
+//     }
+//     // Otherwise
+//     else {
+//       console.log("doc");
+//       console.log(doc);
+//       // Use the article id to find and update it's note
+//       Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+//       // Execute the above query
+//       .exec(function(err, doc1) {
+//         // Log any errors
+//         if (err) {
+//           console.log(err);
+//         }
+//         else {
+//           console.log("doc1");
+//           console.log(doc1);
+//           // Or send the document to the browser
+//           res.render('index',{
+//             article:{_id: ,
+//               title: ,
+//               link : ,
+//               note : {
+//                 _id:
+//                 content
+//               }}
+//           });
+//         }
+//       });
+//     }
+//   });
+// });
 
 
 // deleting notes 
@@ -153,7 +167,8 @@ router.post('/article/del/:id', function(req, res) {
         }
       }
       doc.save()
-      res.json({success:true})
+      //res.json({success:true})
+      res.json(doc);
     })
 
 })
