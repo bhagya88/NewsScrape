@@ -40,6 +40,8 @@ $('#next').click(function(){
 	if(idx<articles.length){
 		// show article on page
 		$('#title').text(articles[idx].title);
+		$('#note').empty();
+
 		$('#articleNum').text(idx+1);
 		
 		// if there are any notes for the article, show them on page
