@@ -6,7 +6,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
-  	<link href="https://fonts.googleapis.com/css?family=David+Libre|Sanchez|Yrsa" rel="stylesheet">
+  	<link href="https://fonts.googleapis.com/css?family=David+Libre|Sanchez|Yrsa|Indie+Flower" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -17,7 +17,7 @@
 			    <form id="noteForm">
 			    <div class="card-content note-card ">
 			      <span class="card-title activator white-text text-darken-4">New Note</span>
-			      <input type="text" id="content" name="content">
+			      <input type="text" id="content" name="content"  class="cursiveFont">
 
 			    </div>
 			    <div class="card-image waves-effect waves-block waves-light center light-blue darken-4">
@@ -33,7 +33,11 @@
 			    
 			    <div class="card-content article-card">
 			      <p><span class="card-title activator white-text text-darken-4 center">|| Article <span id="articleNum"></span>||</span></p>
-			      <p id="title" class="left"></p>
+			      
+			       <p id="title" class="center"></p>
+			     <!--  <div><p>Link</p></div> -->
+			      <p><a id="link" class="center"></a></p>
+			     
 
 			    </div>
 			    <div class="card-image waves-effect waves-block waves-light center light-blue darken-4">
@@ -47,7 +51,7 @@
 			    
 			    <div class="card-content note-card center">
 			      <p class="card-title activator white-text text-darken-4 center">Saved Notes</p>
-			      <p id="note" class="left"></p>
+			      <p id="note" class="left cursiveFont"></p>
 
 			    </div>
 			    <div class="card-image waves-effect waves-block waves-light center light-blue darken-4">

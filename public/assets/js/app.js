@@ -18,6 +18,8 @@ getArticles.done(function(data){
 		if(i===0){
 
 			$('#title').text(ele.title);
+			$('#link').text(ele.link);
+			$('#link').attr('href',ele.link);
 			$('#articleNum').text('1');
 
 			// if the article has any notes, show them on page
@@ -40,6 +42,8 @@ $('#next').click(function(){
 	if(idx<articles.length){
 		// show article on page
 		$('#title').text(articles[idx].title);
+		$('#link').text(articles[idx].link);
+		$('#link').attr('href',articles[idx].link);
 		$('#note').empty();
 
 		$('#articleNum').text(idx+1);
@@ -93,7 +97,7 @@ $('#delete').click(function(){
 	var deleteNote = $.ajax({
 		url:'/notes/'+ articles[idx-1]._id+'?_method=DELETE',
 		method:'POST',
-		data:{}
+		data: articles[idx-1]
 	});
 
 	deleteNote.done(function(data){

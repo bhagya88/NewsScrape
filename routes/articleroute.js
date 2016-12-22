@@ -132,15 +132,15 @@ router.post("/articles/:id", function(req, res) {
 
 // deleting all notes associated with an article 
 router.delete('/notes/:articleId', function(req, res) {
-  console.log('reqid',req.params.articleId);
+  console.log('delete req body');
+  console.log(req.body);
      
      Article.findOneAndUpdate({ "_id": req.params.articleId }, { "note": [] })
-    .populate("note")
     .exec(function(err, doc) {
+
       console.log(doc);
       res.end();
       
     });
-
 });
- module.exports = router;
+module.exports = router;

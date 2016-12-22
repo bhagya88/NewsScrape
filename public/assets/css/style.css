@@ -29,4 +29,14 @@ font-family: 'David Libre', serif;
   }
 #content{
 	border-bottom: none;
+	
+}
+
+#title{
+	font-size: 20px;
+}
+
+.cursiveFont{
+	font-family: 'Indie Flower', cursive;
+	font-size:20px;
 }
